@@ -1,11 +1,9 @@
 package com.example.galleryapp.fragments
 
 import android.Manifest
-import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.pm.PackageManager
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -18,21 +16,18 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.galleryapp.MainActivity
 import com.example.galleryapp.R
 import com.example.galleryapp.databinding.ActivityCameraFragmentBinding
-import com.example.galleryapp.databinding.ActivityMainBinding
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class CameraFragmentActivity : Fragment(R.layout.activity_camera_fragment) {
-/*
+
     private lateinit var binding: ActivityCameraFragmentBinding
     private var imageCapture: ImageCapture? = null
     private lateinit var cameraExecutor: ExecutorService
@@ -188,7 +183,6 @@ class CameraFragmentActivity : Fragment(R.layout.activity_camera_fragment) {
                 }
             }.toTypedArray()
     }
-*/
 }
 
 

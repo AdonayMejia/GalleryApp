@@ -7,13 +7,10 @@ import com.example.galleryapp.databinding.FragmentPhotoListBinding
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.navigation.fragment.findNavController
 import com.example.galleryapp.R
-import com.example.galleryapp.databinding.ActivityCameraFragmentBinding
-
 class PhotoListFragment : Fragment(R.layout.fragment_photo_list) {
- /*   private lateinit var binding : FragmentPhotoListBinding
+    private lateinit var binding: FragmentPhotoListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,10 +25,8 @@ class PhotoListFragment : Fragment(R.layout.fragment_photo_list) {
         super.onViewCreated(view, savedInstanceState)
 
 
-    binding.goToCamera.setOnClickListener {
-        findNavController().navigate(R.id.action_photoListFragment_to_cameraFragmentActivity)
+        binding.goToCamera.setOnClickListener {
+            findNavController().navigate(R.id.action_photoListFragment_to_cameraFragmentActivity)
+        }
     }
-
-    }*/
-
 }
