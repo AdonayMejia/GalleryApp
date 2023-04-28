@@ -47,9 +47,15 @@ class CameraFragmentActivity : Fragment(R.layout.activity_camera_fragment) {
         // Request camera permissions
         if (allPermissionsGranted()) {
             startCamera()
-        }
+        }  else {
+            this.requestPermissions( REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
+            Toast.makeText(requireContext(),
+            "Permissions not granted by the user.",
+            Toast.LENGTH_SHORT).show()
+    }
 
-        // Set up the listeners for take photo and video capture buttons
+
+    // Set up the listeners for take photo and video capture buttons
 
         binding.imageCaptureButton.setOnClickListener { takePhoto() }
         binding.galleryButton.setOnClickListener {
@@ -67,9 +73,9 @@ class CameraFragmentActivity : Fragment(R.layout.activity_camera_fragment) {
             .format(System.currentTimeMillis())
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, name)
-            put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+            put(MediaStore.MediaColumns.MIME_TYPE, IMG_TYPE)
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
-                put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/CameraX-Image")
+                put(MediaStore.Images.Media.RELATIVE_PATH, IMG_DIRECTORY)
             }
         }
 
@@ -95,16 +101,13 @@ class CameraFragmentActivity : Fragment(R.layout.activity_camera_fragment) {
                 override fun
                         onImageSaved(output: ImageCapture.OutputFileResults) {
                     val msg = "Photo capture succeeded: ${output.savedUri}"
-                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
                 }
             }
         )
 
     }
-
-    private fun captureVideo() {}
-
     private fun startCamera() {
         imageCapture = ImageCapture.Builder().build()
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
@@ -170,16 +173,17 @@ class CameraFragmentActivity : Fragment(R.layout.activity_camera_fragment) {
     }
 
     companion object {
-        private const val TAG = "CameraXApp"
-        private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
-        private const val REQUEST_CODE_PERMISSIONS = 10
+        const val IMG_TYPE = "image/jpeg"
+        const val IMG_DIRECTORY = "Pictures/CameraX-Folder"
+        const val TAG = "CameraXApp"
+        const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
+        const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS =
             mutableListOf(
-                Manifest.permission.CAMERA,
-                Manifest.permission.RECORD_AUDIO
+                Manifest.permission.CAMERA
             ).apply {
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-                    add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    add(Manifest.permission.READ_MEDIA_IMAGES)
                 }
             }.toTypedArray()
     }

@@ -54,9 +54,15 @@ dependencies {
     implementation(libs.camera.extensions)
     implementation(libs.camera.view)
     implementation(libs.camera.video)
+
+    //Navigation Component
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
 
+    //Glide
+    implementation(libs.glide)
+    implementation(libs.glide.compiler)
+    
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
