@@ -10,14 +10,23 @@ import com.example.galleryapp.databinding.ItemHolder1Binding
 import com.example.galleryapp.databinding.ItemHolder2Binding
 import java.io.File
 
-class PhotosAdapter(private val context: Context,private val imageFiles:List<File> ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class PhotosAdapter(
+    private val context: Context,
+    private val imageFiles:List<File>,
+    private val selectionChangeListener: SelectionChangeListener)
+    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private val isImgSelected = MutableList(imageFiles.size) { false }
     inner class TypeOneViewHolder(binding: ItemHolder1Binding) : RecyclerView.ViewHolder(binding.root) {
       val image = binding.imageViewItem
     }
 
     inner class TypeTwoViewHolder(binding: ItemHolder2Binding) : RecyclerView.ViewHolder(binding.root) {
         val image2 = binding.imageViewItem2
+    }
+
+    interface SelectionChangeListener {
+        fun onSelectionChanged(selectedCount: Int)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -54,11 +63,11 @@ class PhotosAdapter(private val context: Context,private val imageFiles:List<Fil
                     .load(imageFiles[position])
                     .into(holderOne.image)
 
-               /* holderOne.image.setOnClickListener {
-                    isSelected[position] = !isSelected[position]
-                    viewHolderOne.imageView.alpha = if (isSelected[position]) 0.5f else 1.0f
-                    selectionChangeListener.onSelectionChanged(getSelectedImages().size)
-                }*/
+              holderOne.image.setOnClickListener {
+                    isImgSelected[position] = !isImgSelected[position]
+                    holderOne.image.alpha = if (isImgSelected[position]) 0.5f else 1.0f
+                    selectionChangeListener.onSelectionChanged(getImageSelected().size)
+                }
             }
 
             TYPE_TWO -> {
@@ -66,20 +75,22 @@ class PhotosAdapter(private val context: Context,private val imageFiles:List<Fil
                 Glide.with(context)
                     .load(imageFiles[position])
                     .into(holderTwo.image2)
-                /*viewHolderTwo.imageView.setOnClickListener {
-                    isSelected[position] = !isSelected[position]
-                    viewHolderTwo.imageView.alpha = if (isSelected[position]) 0.5f else 1.0f
-                    selectionChangeListener.onSelectionChanged(getSelectedImages().size)
-                }*/
+                holderTwo.image2.setOnClickListener {
+                    isImgSelected[position] = !isImgSelected[position]
+                    holderTwo.image2.alpha = if (isImgSelected[position]) 0.5f else 1.0f
+                    selectionChangeListener.onSelectionChanged(getImageSelected().size)
+                }
             }
         }
     }
 
     override fun getItemCount(): Int = imageFiles.size
 
+    fun getImageSelected(): List<File> {
+        return imageFiles.filterIndexed { index, _ -> isImgSelected[index] }
+    }
     companion object{
         const val TYPE_ONE = 1
         const val TYPE_TWO = 2
     }
-
 }

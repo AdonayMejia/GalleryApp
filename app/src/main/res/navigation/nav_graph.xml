@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_photoListFragment_to_cameraFragmentActivity"
             app:destination="@id/cameraFragmentActivity" />
+        <action
+            android:id="@+id/action_photoListFragment_to_sliderFragment"
+            app:destination="@id/sliderFragment" />
     </fragment>
 
     <fragment
@@ -24,5 +27,10 @@
             android:id="@+id/action_cameraFragmentActivity_to_photoListFragment"
             app:destination="@id/photoListFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/sliderFragment"
+        android:name="com.example.galleryapp.fragments.SliderFragment"
+        android:label="activity_slider_fragment"
+        tools:layout="@layout/activity_slider_fragment" />
 
 </navigation>

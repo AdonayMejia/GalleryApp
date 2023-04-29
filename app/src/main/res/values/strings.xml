@@ -3,6 +3,7 @@
     <string name="take_capture">Take photo</string>
     <string name="take_video">Take video</string>
     <string name="invalid_viewType">Invalid ViewType Detected</string>
+    <string name="slider">Add photos to slider</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

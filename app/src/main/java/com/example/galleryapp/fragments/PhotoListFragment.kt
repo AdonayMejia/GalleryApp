@@ -1,5 +1,6 @@
 package com.example.galleryapp.fragments
 
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import androidx.fragment.app.Fragment
@@ -14,7 +15,7 @@ import com.example.galleryapp.R
 import com.example.galleryapp.adapter.PhotosAdapter
 import java.io.File
 
-class PhotoListFragment : Fragment(R.layout.fragment_photo_list) {
+class PhotoListFragment : Fragment(R.layout.fragment_photo_list), PhotosAdapter.SelectionChangeListener {
     private lateinit var binding: FragmentPhotoListBinding
 
     override fun onCreateView(
@@ -33,7 +34,7 @@ class PhotoListFragment : Fragment(R.layout.fragment_photo_list) {
         val imageFiles =
             imageDirectory.listFiles()?.filter { it.extension == IMAGE_EXTENSION }?.toList() ?: emptyList()
 
-        val photosAdapter = PhotosAdapter(requireContext(), imageFiles)
+        val photosAdapter = PhotosAdapter(requireContext(), imageFiles,this )
 
         with(binding.galleryRecycler) {
             layoutManager = GridLayoutManager(requireContext(), 2).also {
@@ -49,12 +50,36 @@ class PhotoListFragment : Fragment(R.layout.fragment_photo_list) {
             //addItemDecoration(SpaceItemDecoration(50))
             adapter = photosAdapter
         }
+
         binding.goToCamera.setOnClickListener {
             findNavController().navigate(R.id.action_photoListFragment_to_cameraFragmentActivity)
         }
-        println(imageFiles)
-        println(imageDirectory)
+
+        binding.goToSlider.setOnClickListener {
+            navigateToSliderScreenFragment(photosAdapter.getImageSelected())
+        }
+        binding.goToSlider.visibility = View.GONE
     }
+
+    override fun onSelectionChanged(selectedCount: Int) {
+        binding.goToSlider.visibility = if (selectedCount > 0) View.VISIBLE else View.GONE
+    }
+
+   private fun navigateToSliderScreenFragment(selectedImages: List<File>) {
+        // Convert selected images to URIs
+        val selectedImageUris = ArrayList<Uri>()
+        for (imageFile in selectedImages) {
+            val imageUri = Uri.fromFile(imageFile)
+            selectedImageUris.add(imageUri)
+        }
+        // Create SliderScreenFragment instance and pass the selected image URIs
+        val sliderFragment = SliderFragment.newInstance(selectedImageUris)
+       parentFragmentManager.beginTransaction()
+           .replace(R.id.host_fragment, sliderFragment)
+           .addToBackStack(null)
+           .commit()
+    }
+
 
     companion object {
         private const val CAMERAX_IMAGE_FOLDER = "Pictures/CameraX-Folder"
