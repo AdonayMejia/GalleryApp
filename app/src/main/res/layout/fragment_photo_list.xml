@@ -6,17 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".fragments.PhotoListFragment">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/gallery_Recycler"
@@ -26,35 +15,31 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:listitem="@layout/item_holder1" />
+                tools:listitem="@layout/item_holder1"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/goToCamera"
                 android:layout_width="65dp"
                 android:layout_height="65dp"
-                android:layout_marginTop="608dp"
+                android:layout_marginTop="700dp"
                 android:background="@drawable/baseline_add_photo_alternate_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.887"
+                app:layout_constraintHorizontal_bias="0.893"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/goToSlider"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:layout_marginStart="36dp"
-                android:layout_marginTop="608dp"
-                android:background="@drawable/baseline_add_to_photos_24"
-                android:contentDescription="@string/slider"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/goToSlider"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="700dp"
+        android:background="@drawable/baseline_add_to_photos_24"
+        android:contentDescription="@string/slider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.048"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

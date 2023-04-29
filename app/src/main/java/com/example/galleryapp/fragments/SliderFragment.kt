@@ -8,25 +8,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.example.galleryapp.R
 import com.example.galleryapp.adapter.SliderAdapter
 import com.example.galleryapp.databinding.ActivitySliderFragmentBinding
 import kotlin.collections.ArrayList
 
-class SliderFragment() : Fragment(R.layout.activity_slider_fragment) {
+class SliderFragment : Fragment(R.layout.activity_slider_fragment) {
 
     private lateinit var binding: ActivitySliderFragmentBinding
-    private lateinit var uriImages : ArrayList<Uri>
-
+    private lateinit var uriImages: ArrayList<Uri>
+    private val snapHelper = LinearSnapHelper()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        uriImages = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+        uriImages = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             (requireArguments().getParcelableArrayList(
-                ARG_IMAGES,
-                Uri::class.java
-            )as ArrayList<Uri>)
-        }else{
+                ARG_IMAGES, Uri::class.java
+            ) as ArrayList<Uri>)
+        } else {
             requireArguments().getParcelableArrayList<Uri>(
                 ARG_IMAGES
             ) as ArrayList<Uri>
@@ -34,30 +35,25 @@ class SliderFragment() : Fragment(R.layout.activity_slider_fragment) {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = ActivitySliderFragmentBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val recyclerView: RecyclerView = binding.sliderRecycler
         with(binding.sliderRecycler) {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            //addItemDecoration(SpaceItemDecoration(50))
             adapter = SliderAdapter(requireContext(), uriImages)
         }
-
-
+        snapHelper.attachToRecyclerView(recyclerView)
     }
 
-
-    companion object{
+    companion object {
         private const val ARG_IMAGES = "images"
         fun newInstance(imageUris: ArrayList<Uri>): SliderFragment {
             val fragment = SliderFragment()

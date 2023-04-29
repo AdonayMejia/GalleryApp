@@ -15,13 +15,12 @@ import com.example.galleryapp.R
 import com.example.galleryapp.adapter.PhotosAdapter
 import java.io.File
 
-class PhotoListFragment : Fragment(R.layout.fragment_photo_list), PhotosAdapter.SelectionChangeListener {
+class PhotoListFragment : Fragment(R.layout.fragment_photo_list),
+    PhotosAdapter.SelectionChangeListener {
     private lateinit var binding: FragmentPhotoListBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentPhotoListBinding.inflate(inflater, container, false)
         return binding.root
@@ -32,22 +31,20 @@ class PhotoListFragment : Fragment(R.layout.fragment_photo_list), PhotosAdapter.
 
         val imageDirectory = File(Environment.getExternalStorageDirectory(), CAMERAX_IMAGE_FOLDER)
         val imageFiles =
-            imageDirectory.listFiles()?.filter { it.extension == IMAGE_EXTENSION }?.toList() ?: emptyList()
+            imageDirectory.listFiles()?.filter { it.extension == IMAGE_EXTENSION }?.toList()
+                ?: emptyList()
 
-        val photosAdapter = PhotosAdapter(requireContext(), imageFiles,this )
+        val photosAdapter = PhotosAdapter(requireContext(), imageFiles, this)
 
         with(binding.galleryRecycler) {
             layoutManager = GridLayoutManager(requireContext(), 2).also {
                 it.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                     override fun getSpanSize(position: Int): Int {
-                        return if (position % 3 == 0)
-                            2
-                        else
-                            1
+                        return if (position % 3 == 0) 2
+                        else 1
                     }
                 }
             }
-            //addItemDecoration(SpaceItemDecoration(50))
             adapter = photosAdapter
         }
 
@@ -65,7 +62,7 @@ class PhotoListFragment : Fragment(R.layout.fragment_photo_list), PhotosAdapter.
         binding.goToSlider.visibility = if (selectedCount > 0) View.VISIBLE else View.GONE
     }
 
-   private fun navigateToSliderScreenFragment(selectedImages: List<File>) {
+    private fun navigateToSliderScreenFragment(selectedImages: List<File>) {
         // Convert selected images to URIs
         val selectedImageUris = ArrayList<Uri>()
         for (imageFile in selectedImages) {
@@ -74,10 +71,8 @@ class PhotoListFragment : Fragment(R.layout.fragment_photo_list), PhotosAdapter.
         }
         // Create SliderScreenFragment instance and pass the selected image URIs
         val sliderFragment = SliderFragment.newInstance(selectedImageUris)
-       parentFragmentManager.beginTransaction()
-           .replace(R.id.host_fragment, sliderFragment)
-           .addToBackStack(null)
-           .commit()
+        parentFragmentManager.beginTransaction().replace(R.id.host_fragment, sliderFragment)
+            .addToBackStack(null).commit()
     }
 
 

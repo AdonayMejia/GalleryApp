@@ -33,9 +33,7 @@ class CameraFragmentActivity : Fragment(R.layout.activity_camera_fragment) {
     private lateinit var cameraExecutor: ExecutorService
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = ActivityCameraFragmentBinding.inflate(inflater, container, false)
         return binding.root
@@ -47,15 +45,15 @@ class CameraFragmentActivity : Fragment(R.layout.activity_camera_fragment) {
         // Request camera permissions
         if (allPermissionsGranted()) {
             startCamera()
-        }  else {
-            this.requestPermissions( REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
-            Toast.makeText(requireContext(),
-            "Permissions not granted by the user.",
-            Toast.LENGTH_SHORT).show()
-    }
+        } else {
+            this.requestPermissions(REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
+            Toast.makeText(
+                requireContext(), "Permissions not granted by the user.", Toast.LENGTH_SHORT
+            ).show()
+        }
 
 
-    // Set up the listeners for take photo and video capture buttons
+        // Set up the listeners for take photo and video capture buttons
 
         binding.imageCaptureButton.setOnClickListener { takePhoto() }
         binding.galleryButton.setOnClickListener {
@@ -69,8 +67,7 @@ class CameraFragmentActivity : Fragment(R.layout.activity_camera_fragment) {
         val imageCapture = imageCapture ?: return
 
         // Create time stamped name and MediaStore entry.
-        val name = SimpleDateFormat(FILENAME_FORMAT, Locale.US)
-            .format(System.currentTimeMillis())
+        val name = SimpleDateFormat(FILENAME_FORMAT, Locale.US).format(System.currentTimeMillis())
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, name)
             put(MediaStore.MediaColumns.MIME_TYPE, IMG_TYPE)
@@ -80,34 +77,30 @@ class CameraFragmentActivity : Fragment(R.layout.activity_camera_fragment) {
         }
 
         // Create output options object which contains file + metadata
-        val outputOptions = ImageCapture.OutputFileOptions
-            .Builder(
-                requireContext().contentResolver,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                contentValues
-            )
-            .build()
+        val outputOptions = ImageCapture.OutputFileOptions.Builder(
+            requireContext().contentResolver,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            contentValues
+        ).build()
 
         // Set up image capture listener, which is triggered after photo has
         // been taken
-        imageCapture.takePicture(
-            outputOptions,
+        imageCapture.takePicture(outputOptions,
             ContextCompat.getMainExecutor(requireContext()),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
                     Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
                 }
 
-                override fun
-                        onImageSaved(output: ImageCapture.OutputFileResults) {
+                override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val msg = "Photo capture succeeded: ${output.savedUri}"
                     Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
                 }
-            }
-        )
+            })
 
     }
+
     private fun startCamera() {
         imageCapture = ImageCapture.Builder().build()
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
@@ -117,11 +110,9 @@ class CameraFragmentActivity : Fragment(R.layout.activity_camera_fragment) {
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
 
             // Preview
-            val preview = Preview.Builder()
-                .build()
-                .also {
-                    it.setSurfaceProvider(binding.viewFinder.surfaceProvider)
-                }
+            val preview = Preview.Builder().build().also {
+                it.setSurfaceProvider(binding.viewFinder.surfaceProvider)
+            }
 
             // Select back camera as a default
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
@@ -155,8 +146,7 @@ class CameraFragmentActivity : Fragment(R.layout.activity_camera_fragment) {
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<String>, grantResults:
-        IntArray
+        requestCode: Int, permissions: Array<String>, grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
@@ -164,9 +154,7 @@ class CameraFragmentActivity : Fragment(R.layout.activity_camera_fragment) {
                 startCamera()
             } else {
                 Toast.makeText(
-                    context,
-                    "Permissions not granted by the user.",
-                    Toast.LENGTH_SHORT
+                    context, "Permissions not granted by the user.", Toast.LENGTH_SHORT
                 ).show()
             }
         }
@@ -178,14 +166,13 @@ class CameraFragmentActivity : Fragment(R.layout.activity_camera_fragment) {
         const val TAG = "CameraXApp"
         const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         const val REQUEST_CODE_PERMISSIONS = 10
-        private val REQUIRED_PERMISSIONS =
-            mutableListOf(
-                Manifest.permission.CAMERA
-            ).apply {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    add(Manifest.permission.READ_MEDIA_IMAGES)
-                }
-            }.toTypedArray()
+        private val REQUIRED_PERMISSIONS = mutableListOf(
+            Manifest.permission.CAMERA
+        ).apply {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                add(Manifest.permission.READ_MEDIA_IMAGES)
+            }
+        }.toTypedArray()
     }
 }
 

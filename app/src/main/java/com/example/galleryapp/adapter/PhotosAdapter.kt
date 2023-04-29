@@ -12,16 +12,19 @@ import java.io.File
 
 class PhotosAdapter(
     private val context: Context,
-    private val imageFiles:List<File>,
-    private val selectionChangeListener: SelectionChangeListener)
-    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private val imageFiles: List<File>,
+    private val selectionChangeListener: SelectionChangeListener
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val isImgSelected = MutableList(imageFiles.size) { false }
-    inner class TypeOneViewHolder(binding: ItemHolder1Binding) : RecyclerView.ViewHolder(binding.root) {
-      val image = binding.imageViewItem
+
+    inner class TypeOneViewHolder(binding: ItemHolder1Binding) :
+        RecyclerView.ViewHolder(binding.root) {
+        val image = binding.imageViewItem
     }
 
-    inner class TypeTwoViewHolder(binding: ItemHolder2Binding) : RecyclerView.ViewHolder(binding.root) {
+    inner class TypeTwoViewHolder(binding: ItemHolder2Binding) :
+        RecyclerView.ViewHolder(binding.root) {
         val image2 = binding.imageViewItem2
     }
 
@@ -32,6 +35,7 @@ class PhotosAdapter(
     override fun getItemViewType(position: Int): Int {
         return if (position % 3 == 0) TYPE_TWO else TYPE_ONE
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             TYPE_ONE -> {
@@ -55,15 +59,16 @@ class PhotosAdapter(
             else -> throw IllegalArgumentException(context.getString(R.string.invalid_viewType))
         }
     }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder.itemViewType) {
             TYPE_ONE -> {
                 val holderOne = holder as TypeOneViewHolder
-               Glide.with(context)
+                Glide.with(context)
                     .load(imageFiles[position])
                     .into(holderOne.image)
 
-              holderOne.image.setOnClickListener {
+                holderOne.image.setOnClickListener {
                     isImgSelected[position] = !isImgSelected[position]
                     holderOne.image.alpha = if (isImgSelected[position]) 0.5f else 1.0f
                     selectionChangeListener.onSelectionChanged(getImageSelected().size)
@@ -89,7 +94,8 @@ class PhotosAdapter(
     fun getImageSelected(): List<File> {
         return imageFiles.filterIndexed { index, _ -> isImgSelected[index] }
     }
-    companion object{
+
+    companion object {
         const val TYPE_ONE = 1
         const val TYPE_TWO = 2
     }
