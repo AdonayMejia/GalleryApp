@@ -31,6 +31,10 @@
         android:id="@+id/sliderFragment"
         android:name="com.example.galleryapp.fragments.SliderFragment"
         android:label="activity_slider_fragment"
-        tools:layout="@layout/activity_slider_fragment" />
+        tools:layout="@layout/activity_slider_fragment" >
+        <action
+            android:id="@+id/action_sliderFragment_to_photoListFragment"
+            app:destination="@id/photoListFragment" />
+    </fragment>
 
 </navigation>

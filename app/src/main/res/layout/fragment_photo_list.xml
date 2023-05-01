@@ -17,23 +17,24 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:listitem="@layout/item_holder1"/>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/goToCamera"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:layout_marginTop="700dp"
-                android:background="@drawable/baseline_add_photo_alternate_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.893"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/goToCamera"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="600dp"
+        android:background="@drawable/baseline_add_photo_alternate_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.893"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/goToSlider"
         android:layout_width="65dp"
         android:layout_height="65dp"
-        android:layout_marginTop="700dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="600dp"
         android:background="@drawable/baseline_add_to_photos_24"
         android:contentDescription="@string/slider"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -7,6 +7,7 @@
     tools:context=".fragments.SliderFragment">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:orientation="horizontal"
@@ -15,21 +16,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ScrollView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/slider_Recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:ignore="UselessParent">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/slider_Recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:listitem="@layout/slider_item"/>
-
-        </ScrollView>
-
+            tools:listitem="@layout/slider_item" />
 
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
